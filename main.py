@@ -32,7 +32,6 @@ def cpm():
     new = valid + invalid
     return ((new - old) * 60)
 
-
 def save(arg):
     content = requests.get(arg).content
     if 'image.prntscr' in arg: half_url = 'https://image.prntscr.com/image/'
