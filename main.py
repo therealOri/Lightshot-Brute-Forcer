@@ -1,8 +1,13 @@
+#Edited some parts of the code to work in a linux terminal instead of a windows CMD command window.
+#And used "print" because that's what python uses to send messages to the terminal/windows CMD.
+#Also removed the "[title]" stuff as this is for the linux shell and not CMD for windows so it's not necessary.
+
 from colors import green, red, reset
 import threading, requests, random, string, sys, os; from time import sleep
 
-os.system('title [Lightshot Brute Forcer] - Scrape Screenshots ^| Loading...')
-if not os.path.exists('Images'): os.makedirs('Images')
+print('[Lightshot Brute Forcer] - Scraping Screenshots \n Loading...')
+if not os.path.exists('Images'): os.mkdir('Images')
+                                #mkdir is the linux equivalent to make a folder/make directory.
 
 valid = 0
 invalid = 0
@@ -26,7 +31,7 @@ def grab_proxies():
         sleep(600)
         proxies.clear()
 
-def cpm():
+def cpm(): #not sure if this is needed now as I removed the "[title]" stuff/lines of code for windows CMD..But I'll leave it just incase I want to do something with it at a later time."
     old = valid + invalid
     sleep(1)
     new = valid + invalid
@@ -48,19 +53,16 @@ def main(proxy):
         check = requests.get('https://prnt.sc/%s' % (code), headers = headers, proxies = {'https': 'http://%s' % (proxy)}).text
     except:
         retries += 1
-        os.system('title [Lightshot Brute Forcer] - Scrape Screenshots ^| Checked: %s ^| Valid: %s ^| Invalid: %s ^| Retries: %s ^| CPM: %s' % (valid + invalid, valid, invalid, retries, cpm()))
     else:
         if 'name="twitter:image:src" content="' in check and not '0_173a7b_211be8ff' in check and not 'ml3U3Pt' in check:
             lock.acquire(); sys.stdout.write('[%sVALID%s] https://prnt.sc/%s\n' % (green(), reset(), code)); lock.release()
             valid += 1
-            os.system('title [Lightshot Brute Forcer] - Scrape Screenshots ^| Checked: %s ^| Valid: %s ^| Invalid: %s ^| Retries: %s ^| CPM: %s' % (valid + invalid, valid, invalid, retries, cpm()))
             url = check.split('name="twitter:image:src" content="')[1].split('"/> <meta')[0]
             save(url)
             with open('Image Links.txt', 'a', encoding = 'UTF-8') as f: f.write('https://prnt.sc/%s\n' % (code))
         else:
             lock.acquire(); sys.stdout.write('[%sINVALID%s] https://prnt.sc/%s\n' % (red(), reset(), code)); lock.release()
             invalid += 1
-            os.system('title [Lightshot Brute Forcer] - Scrape Screenshots ^| Checked: %s ^| Valid: %s ^| Invalid: %s ^| Retries: %s ^| CPM: %s' % (valid + invalid, valid, invalid, retries, cpm()))
 
 threading.Thread(target = grab_proxies).start()
 threading.Thread(target = cpm).start()
