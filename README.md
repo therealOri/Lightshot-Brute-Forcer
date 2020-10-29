@@ -12,3 +12,8 @@ pip install requests
 
 ## Warning
 This is for educational purposes only, for you to learn how brute forcers work. It tests all the possible combinations and simply speeds up the process from you manually testing each combination. Please do not use this, it is once again meant for you to learn how they work. However, if you choose to use it you are doing it at your own risk.
+
+
+
+## This is also a fixed version for Linux users. 
+The original creator of this can be found ![Here](https://github.com/zoony1337/Lightshot-Brute-Forcer)
